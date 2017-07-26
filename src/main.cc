@@ -11,10 +11,21 @@
 
 #include <iostream>
 
-int main(int argc, char* argv[]) {
+#include "timer.hpp"
 
-  std::cout << "\tBoost::ublas vs. Eigen Benchmarks\n"
+int main(int argc, char* argv[]) {
+  auto stopwatch = Timer();
+  stopwatch.start();
+  auto sum(0);
+  for (int i = 0; i < 100000; ++i) {
+    sum += i;
+  }
+  stopwatch.stop();
+  std::cout << '\n'
+            << "\t---------------------------------\n"
+            << "\tBoost::ublas vs. Eigen Benchmarks\n"
             << "\t---------------------------------\n";
 
+  std::cout << "Elapsed time (s): " << stopwatch.elapsed_time() << '\n';
   return EXIT_SUCCESS;
 }
