@@ -7,7 +7,7 @@ set(SRC_DIR "${PROJECT_SOURCE_DIR}/src")
 set(CMAKE_CXX_STANDARD 14)
 
 # Find Boost::ublas
-find_package(Boost 1.61.0 COMPONENTS ublas REQUIRED)
+find_package(Boost 1.61.0)
 
 # Add include directories
 include_directories(SYSTEM "${SRC_DIR}/eigen/")
