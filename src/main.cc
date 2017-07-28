@@ -11,21 +11,20 @@
 
 #include <iostream>
 
+#include "matrix_matrix.hpp"
+#include "results.hpp"
 #include "timer.hpp"
 
 int main(int argc, char* argv[]) {
-  auto stopwatch = Timer();
-  stopwatch.start();
-  auto sum(0);
-  for (int i = 0; i < 100000; ++i) {
-    sum += i;
-  }
-  stopwatch.stop();
   std::cout << '\n'
             << "\t---------------------------------\n"
             << "\tBoost::ublas vs. Eigen Benchmarks\n"
             << "\t---------------------------------\n";
 
-  std::cout << "Elapsed time (s): " << stopwatch.elapsed_time() << '\n';
+  std::cout << "Running matrix-matrix multiplication benchmark\n\n";
+  auto results = run_matrix_matrix_benchmark(100);
+  std::cout << "Results:\n"
+            << "\tEigen: " << results.get_average(BenchmarkType::Eigen) << '\n'
+            << "\tuBLAS: " << results.get_average(BenchmarkType::uBLAS) << '\n';
   return EXIT_SUCCESS;
 }

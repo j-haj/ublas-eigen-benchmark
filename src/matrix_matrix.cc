@@ -7,7 +7,7 @@
  *
  * Matrix-matrix multiplication benchmarks
  */
-
+#include <cmath>
 #include <vector>
 
 #include <boost/numeric/ublas/matrix.hpp>
@@ -15,12 +15,14 @@
 
 #include <Eigen/Dense>
 
+#include "results.hpp"
 #include "utility.hpp"
 
 #define MAX_ROW_SIZE 10000
 #define MAX_COL_SIZE 10000
 #define N_MEAN 100
 #define N_STD 23.5
+#define TOL 0.000001
 
 using ublas = boost::numeric::ublas;
 
@@ -44,9 +46,41 @@ Eigen::MatrixXd create_eigen_matrix(size_t rows, size_t cols) {
   return m;
 }
 
-/**
- * Performs the matrix-matrix multiplication benchmarks
- */
-std::vector<double> run_matrix_matrix_test() {
+BenchmarkResults run_matrix_matrix_benchmark(size_t N) {
+  BenchmarkResults results = BenchmarkResults(N);
+  auto timer = Timer();
 
+  const size_t rows = 1000;
+  const size_t cols = 1000;
+  for (size_t i = 0; i < N; ++i) {
+    
+    // Create matrices
+    auto A_eigen = create_eigen_matrix(rows, cols);
+    auto B_eigen = create_eigen_matrix(rows, cols);
+    auto A_ublas = create_eigen_matrix(rows, cols);
+    auto B_ublas = create_ublas_matrix(rows, cols);
+
+    // Benchmark
+    timer.start()
+    auto C_eigen = A_eigen * B_eigen;
+    timer.stop();
+    results.push_back(BenchmarkType::Eigen, timer.elapsed_time());
+
+    timer.start();
+    auto C_ublas = ublas::prod(A_ublas, B_ublas);
+    timer.stop();
+    results.push_back(BenchmarkType::uBLAS, timer.elapsed_time());
+
+    // Check that the results are the same
+    for (size_t row = 0; row < rows; ++row) {
+      for (size_t col = 0; col < cols; ++col) {
+        if (math.abs(C_eigen(row, col) - C_ublas(row, col)) > TOL) {
+          std::cout << "WARNING: matrix products are not equivalent!\n";
+          std::cout << "Exiting early as a result...\n";
+          return results;
+        }
+      }
+    }
+  }
+  return results;
 }

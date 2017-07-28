@@ -11,13 +11,19 @@ find_package(Boost 1.61.0)
 
 # Add include directories
 include_directories(SYSTEM "${SRC_DIR}/eigen/")
-include_directories(${Boost_INCLUDE_DIR})
+include_directories(SYSTEM ${Boost_INCLUDE_DIR})
 
 add_definitions(-DBOOST_LOG_DYN_LINK)
 
+set(HEADERS
+  ${SRC_DIR}/matrix_matrix.hpp
+  ${SRC_DIR}/results.hpp
+  ${SRC_DIR}/timer.hpp
+  ${SRC_DIR}/utility.hpp)
+
 set(SOURCES
-  ${SRC_DIR}/main.cc)
+  ${SRC_DIR}/matrix_matrix.cc)
 
 # Create binary
-add_executable(run_benchmark ${SRC_DIR}/main.cc ${SOURCES})
+add_executable(run_benchmark ${SRC_DIR}/main.cc ${SOURCES} ${HEADERS})
 target_link_libraries(run_benchmark ${Boost_LIBRARIES})
