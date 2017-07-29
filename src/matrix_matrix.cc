@@ -15,7 +15,9 @@
 
 #include <Eigen/Dense>
 
+#include "matrix_matrix.hpp"
 #include "results.hpp"
+#include "timer.hpp"
 #include "utility.hpp"
 
 #define MAX_ROW_SIZE 10000
@@ -61,7 +63,7 @@ BenchmarkResults run_matrix_matrix_benchmark(size_t N) {
     auto B_ublas = create_ublas_matrix(rows, cols);
 
     // Benchmark
-    timer.start()
+    timer.start();
     auto C_eigen = A_eigen * B_eigen;
     timer.stop();
     results.push_back(BenchmarkType::Eigen, timer.elapsed_time());
@@ -74,7 +76,7 @@ BenchmarkResults run_matrix_matrix_benchmark(size_t N) {
     // Check that the results are the same
     for (size_t row = 0; row < rows; ++row) {
       for (size_t col = 0; col < cols; ++col) {
-        if (math.abs(C_eigen(row, col) - C_ublas(row, col)) > TOL) {
+        if (std::abs(C_eigen(row, col) - C_ublas(row, col)) > TOL) {
           std::cout << "WARNING: matrix products are not equivalent!\n";
           std::cout << "Exiting early as a result...\n";
           return results;

@@ -12,6 +12,7 @@
 #define __RESULTS_HPP
 
 #include <algorithm>
+#include <numeric>
 #include <vector>
 
 /**

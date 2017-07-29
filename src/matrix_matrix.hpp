@@ -2,7 +2,7 @@
 #ifndef __MATRIX_MATRIX_HPP
 #define __MATRIX_MATRIX_HPP
 
-#include "results.hpp"
+class BenchmarkResults;
 
 /**
  * Perform the matrix-matrix multiplication benchmarks
