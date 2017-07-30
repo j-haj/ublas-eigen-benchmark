@@ -22,7 +22,7 @@
  */
 double random_double(const double mean, const double std) {
   static std::random_device rd;
-  static std::mt19337 gen(rd());
+  static std::mt19937 gen(rd());
   std::normal_distribution<double> d(mean, std);
   return d(gen);
 }

@@ -32,7 +32,7 @@ struct Timer {
    *
    * @return elapsed time in seconds
    */
-  double elapsed_time() {
+  double elapsed_time() const {
     return elapsed_.count();
   }
 
