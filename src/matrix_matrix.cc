@@ -25,11 +25,11 @@
 #define MAX_COL_SIZE 10000
 #define N_MEAN 100
 #define N_STD 23.5
-#define TOL 0.000001
+#define TOL 0.00001
 
 namespace ublas = boost::numeric::ublas;
 
-ublas::matrix<double> create_ublas_matrix(size_t rows, size_t cols) {
+ublas::matrix<double> create_ublas_matrix(const size_t rows, const size_t cols) {
   ublas::matrix<double> m(rows, cols);
   for (size_t i = 0; i < rows; ++i) {
     for (size_t j = 0; j < cols; ++j) {
@@ -39,7 +39,7 @@ ublas::matrix<double> create_ublas_matrix(size_t rows, size_t cols) {
   return m;
 }
 
-Eigen::MatrixXd create_eigen_matrix(size_t rows, size_t cols) {
+Eigen::MatrixXd create_eigen_matrix(const size_t rows, const size_t cols) {
   Eigen::MatrixXd m(rows, cols);
   for (size_t i = 0; i < rows; ++i) {
     for (size_t j = 0; j < cols; ++j) {
@@ -53,8 +53,8 @@ BenchmarkResults run_matrix_matrix_benchmark(size_t N) {
   BenchmarkResults results = BenchmarkResults(N);
   auto timer = Timer();
 
-  const size_t rows = 1000;
-  const size_t cols = 1000;
+  const size_t rows = 10;
+  const size_t cols = 10;
   for (size_t i = 0; i < N; ++i) {
     
     // Create matrices
@@ -67,6 +67,7 @@ BenchmarkResults run_matrix_matrix_benchmark(size_t N) {
     timer.start();
     auto C_eigen = A_eigen * B_eigen;
     timer.stop();
+    std::cout << "C_eigen:\n" << C_eigen << '\n';
     auto elapsed = timer.elapsed_time();
     std::cout <<"elapsed: " << elapsed << '\n';
     results.push_back(BenchmarkType::Eigen, timer.elapsed_time());
@@ -74,6 +75,7 @@ BenchmarkResults run_matrix_matrix_benchmark(size_t N) {
     timer.start();
     auto C_ublas = ublas::prod(A_ublas, B_ublas);
     timer.stop();
+    std::cout << "C_ublas:\n" << C_ublas << '\n';
     results.push_back(BenchmarkType::uBLAS, timer.elapsed_time());
   }
   return results;

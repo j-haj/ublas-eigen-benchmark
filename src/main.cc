@@ -22,7 +22,7 @@ int main(int argc, char* argv[]) {
             << "\t---------------------------------\n";
 
   std::cout << "Running matrix-matrix multiplication benchmark\n\n";
-  auto results = run_matrix_matrix_benchmark(100);
+  auto results = run_matrix_matrix_benchmark(1);
   std::cout << "Results:\n"
             << "\tEigen: " << results.get_average(BenchmarkType::Eigen) << '\n'
             << "\tuBLAS: " << results.get_average(BenchmarkType::uBLAS) << '\n';
