@@ -64,18 +64,19 @@ BenchmarkResults run_matrix_matrix_benchmark(size_t N) {
     auto B_ublas = create_ublas_matrix(rows, cols);
 
     // Benchmark
+    double unused;
     timer.start();
     auto C_eigen = A_eigen * B_eigen;
+    unused = C_eigen(0, 0);
     timer.stop();
-    std::cout << "C_eigen:\n" << C_eigen << '\n';
     auto elapsed = timer.elapsed_time();
     std::cout <<"elapsed: " << elapsed << '\n';
     results.push_back(BenchmarkType::Eigen, timer.elapsed_time());
 
     timer.start();
     auto C_ublas = ublas::prod(A_ublas, B_ublas);
+    unused = C_ublas(0, 0);
     timer.stop();
-    std::cout << "C_ublas:\n" << C_ublas << '\n';
     results.push_back(BenchmarkType::uBLAS, timer.elapsed_time());
   }
   return results;

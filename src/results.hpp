@@ -80,9 +80,9 @@ struct BenchmarkResults {
   double get_average(BenchmarkType t) {
     switch (t) {
       case BenchmarkType::Eigen:
-        return std::accumulate(eigen_.begin(), eigen_.end(), 0) / eigen_.size();
+        return std::accumulate(eigen_.begin(), eigen_.end(), 0.0) / eigen_.size();
       case BenchmarkType::uBLAS:
-        return std::accumulate(ublas_.begin(), ublas_.end(), 0) / ublas_.size();
+        return std::accumulate(ublas_.begin(), ublas_.end(), 0.0) / ublas_.size();
     }
   }
 };  // struct BenchmarkResults
